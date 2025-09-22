@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Full Page PDF Linker</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background: #f4f4f4;
+            padding: 40px;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+        input, button {
+            padding: 10px;
+            margin-top: 10px;
+            width: 100%;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        ul {
+            margin-top: 20px;
+        }
+        li a {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🧷 Add Full Page Clickable Link to Multiple PDFs</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label>🔗 Enter URL:</label>
+            <input type="text" name="link" placeholder="https://www.example.com" required>
+
+            <label>📄 Upload PDFs:</label>
+            <input type="file" name="pdf_files" multiple accept=".pdf" required>
+
+            <button type="submit">Generate Linked PDFs</button>
+        </form>
+
+        {% if output_files %}
+            <h3>✅ Download Processed PDFs:</h3>
+            <ul>
+                {% for file in output_files %}
+                    <li><a href="/media/{{ file }}" download>{{ file }}</a></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</body>
+</html>
